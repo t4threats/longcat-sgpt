@@ -10,8 +10,8 @@ license = { text = "MIT" }
 requires-python = ">=3.8"
 dependencies = [
     "openai>=1.0",
-]
-keywords = ["cli", "ai", "gpt", "shell", "longcat", "terminal"]
+    "rich>=13.0",
+]keywords = ["cli", "ai", "gpt", "shell", "longcat", "terminal"]
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",

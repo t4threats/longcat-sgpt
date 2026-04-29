@@ -94,18 +94,12 @@ def get_api_key():
 # ─────────────────────────────────────────────
 
 def query(prompt: str, model_alias: str = "chat", mode: str = "default"):
-    """
-    Send a prompt to LongCat API and stream the response to stdout.
-
-    Args:
-        prompt:      The user's question or instruction
-        model_alias: One of 'chat', 'think', 'lite'
-        mode:        One of 'default', 'shell', 'code', 'explain'
-    """
     try:
         from openai import OpenAI
+        from rich.console import Console
+        from rich.markdown import Markdown
     except ImportError:
-        print("❌ Missing dependency. Run:  pip install openai")
+        print("❌ Missing dependency. Run:  pip install openai rich")
         sys.exit(1)
 
     api_key = get_api_key()
@@ -113,8 +107,10 @@ def query(prompt: str, model_alias: str = "chat", mode: str = "default"):
     system_prompt = SYSTEM_PROMPTS.get(mode, SYSTEM_PROMPTS["default"])
 
     client = OpenAI(api_key=api_key, base_url=LONGCAT_BASE_URL)
+    console = Console()
 
     try:
+        # Collect full response first, then render as Markdown
         stream = client.chat.completions.create(
             model=model_name,
             max_tokens=2048,
@@ -125,24 +121,28 @@ def query(prompt: str, model_alias: str = "chat", mode: str = "default"):
             stream=True,
         )
 
-        for chunk in stream:
-            delta = chunk.choices[0].delta.content
-            if delta:
-                print(delta, end="", flush=True)
-        print()  # newline after response
+        full_response = ""
+        # Show a live indicator while streaming
+        with console.status("[bold green]Thinking...[/]", spinner="dots"):
+            for chunk in stream:
+                delta = chunk.choices[0].delta.content
+                if delta:
+                    full_response += delta
+
+        # Render the full response as beautiful Markdown
+        console.print(Markdown(full_response))
 
     except Exception as e:
         err = str(e)
         if "401" in err or "Unauthorized" in err:
-            print("❌ Invalid API key. Check your key and try again.")
+            console.print("❌ [red]Invalid API key. Check your key and try again.[/]")
         elif "429" in err:
-            print("❌ Rate limit hit. Wait a moment and retry.")
+            console.print("❌ [yellow]Rate limit hit. Wait a moment and retry.[/]")
         elif "Connection" in err:
-            print("❌ Cannot reach LongCat API. Check your internet connection.")
+            console.print("❌ [red]Cannot reach LongCat API. Check your internet connection.[/]")
         else:
-            print(f"❌ Error: {e}")
+            console.print(f"❌ [red]Error: {e}[/]")
         sys.exit(1)
-
 
 # ─────────────────────────────────────────────
 # CLI entry point
