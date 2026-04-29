@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "longcat-sgpt"
+version = "0.1.0"
+description = "A Shell GPT CLI tool powered by LongCat AI"
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.8"
+dependencies = [
+    "openai>=1.0",
+]
+keywords = ["cli", "ai", "gpt", "shell", "longcat", "terminal"]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Environment :: Console",
+    "Topic :: Utilities",
+]
+
+[project.scripts]
+sgpt = "sgpt.main:main"
+
+[project.urls]
+Homepage = "https://github.com/YOURUSERNAME/longcat-sgpt"
+Issues = "https://github.com/YOURUSERNAME/longcat-sgpt/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["sgpt*"]

@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+*.whl
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+
+# Secrets — NEVER commit your API key
+.env.local
+secrets.json
+
+# Config (optional — remove this line if you want to track config)
+~/.config/longcat-sgpt/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test
+.pytest_cache/
+.coverage
+htmlcov/
