@@ -29,13 +29,13 @@ git diff | sgpt "summarize these changes"
 ### Option 1 — Install directly from GitHub (recommended)
 
 ```bash
-pip install git+https://github.com/YOURUSERNAME/longcat-sgpt
+pip install git+https://github.com/t4threats/longcat-sgpt
 ```
 
 ### Option 2 — Clone and install locally
 
 ```bash
-git clone https://github.com/YOURUSERNAME/longcat-sgpt
+git clone https://github.com/t4threats/longcat-sgpt
 cd longcat-sgpt
 pip install -e .
 ```
