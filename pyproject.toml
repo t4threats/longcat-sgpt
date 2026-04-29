@@ -16,12 +16,10 @@ dependencies = [
 keywords = ["cli", "ai", "gpt", "shell", "longcat", "terminal"]
 classifiers = [
     "Programming Language :: Python :: 3",
-    "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
     "Environment :: Console",
     "Topic :: Utilities",
 ]
-
 [project.scripts]
 sgpt = "sgpt.main:main"
 
