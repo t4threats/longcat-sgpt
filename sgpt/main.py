@@ -13,7 +13,7 @@ import sys
 import os
 import argparse
 import json
-
+import subprocess
 # ─────────────────────────────────────────────
 # Config & Constants
 # ─────────────────────────────────────────────
@@ -129,8 +129,18 @@ def query(prompt: str, model_alias: str = "chat", mode: str = "default"):
                 if delta:
                     full_response += delta
 
-        # Render the full response as beautiful Markdown
-        console.print(Markdown(full_response))
+      # In shell mode, ask user if they want to execute the command
+        if mode == "shell":
+            console.print(f"\n[bold yellow]Command:[/] [green]{full_response.strip()}[/]\n")
+            confirm = input("⚡ Run this command? [y/N]: ").strip().lower()
+            if confirm == "y":
+                console.print("[dim]Running...[/]\n")
+                subprocess.run(full_response.strip(), shell=True)
+            else:
+                console.print("[dim]Command copied to screen — run it manually.[/]")
+        else:
+            # Render the full response as beautiful Markdown
+            console.print(Markdown(full_response))
 
     except Exception as e:
         err = str(e)
